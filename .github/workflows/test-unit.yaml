@@ -21,4 +21,4 @@ jobs:
           pip install -r requirements-dev.txt
       - name: Test with unittest
         run: |
-          unittest discover -s tests/unit -v
+          python -m unittest discover -s tests/unit -v
