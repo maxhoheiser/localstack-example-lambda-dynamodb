@@ -1,0 +1,8 @@
+[run]
+branch = True
+[report]
+show_missing = True
+omit =
+    build/*
+    tests/*
+    */__init__.py
