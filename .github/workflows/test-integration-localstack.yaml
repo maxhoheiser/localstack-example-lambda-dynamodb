@@ -1,0 +1,30 @@
+name: test-integration-localstack
+
+on:
+  pull_request:
+    branches: [master, feature]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Start LocalStack
+        run: |
+          pip install localstack awscli-local[ver1]
+          docker pull localstack/localstack
+          localstack start -d
+
+          echo "Waiting for LocalStack startup..."
+          localstack wait -t 30
+          echo "Startup complete"
+      - name: Deploy infrastructure
+        run: |
+          bin/deploy.sh
+      - name: Run integration tests against LocalStack
+        run: |
+          python -m pytest tests/integration
+      - name: Show localstack logs
+        if: always()
+        run: |
+          localstack logs
