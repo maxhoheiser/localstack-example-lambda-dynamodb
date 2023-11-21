@@ -1,0 +1,26 @@
+# Editors
+.vscode/
+.idea/
+
+# Mac/OSX
+*.DS_Store
+
+# Windows
+Thumbs.db
+
+# Distribution / packaging
+.Python
+build/
+dist/
+.eggs/
+*.pyc
+*.egg*
+*_build/
+
+# Logs
+pip-log.txt
+pip-delete-this-directory.txt
+*__pycache__*/
+*pybpod-api.log
+*app.log
+*.log
