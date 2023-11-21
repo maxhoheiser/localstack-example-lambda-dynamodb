@@ -46,5 +46,20 @@ awslocal lambda create-function-url-config \
     --function-name update_docker_hub_image_stats \
     --auth-type NONE
 
+awslocal events put-rule \
+    --name update_docker_hub_image_stats-scheduled-rule \
+    --schedule-expression 'rate(1 minute)'
+
+awslocal lambda add-permission \
+    --function-name update_docker_hub_image_stats \
+    --statement-id update_docker_hub_image_stats-scheduled-event \
+    --action 'lambda:InvokeFunction' \
+    --principal events.amazonaws.com \
+    --source-arn arn:aws:events:eu-west-1:000000000000:rule/update_docker_hub_image_stats-scheduled-rule
+
+awslocal events put-targets \
+    --rule update_docker_hub_image_stats-scheduled-rule \
+    --targets file://bin/targets.json
+
 lambda_url=$(awslocal lambda list-function-url-configs --function-name update_docker_hub_image_stats | jq -r '.FunctionUrlConfigs[0].FunctionUrl')
 curl -v $lambda_url
