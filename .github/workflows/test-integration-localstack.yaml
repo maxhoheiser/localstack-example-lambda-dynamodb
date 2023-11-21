@@ -30,6 +30,11 @@ jobs:
         run: |
           bin/deploy.sh
       - name: Run integration tests against LocalStack
+        env:
+          AWS_DEFAULT_REGION: eu-west-1
+          AWS_REGION: eu-west-1
+          AWS_ACCESS_KEY_ID: test
+          AWS_SECRET_ACCESS_KEY: test
         run: |
           python -m pytest tests/integration
       - name: Show localstack logs
